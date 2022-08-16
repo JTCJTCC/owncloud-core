@@ -28,6 +28,9 @@ Summary
 * Bugfix - Handle extra slashes at start of URI path: [#40216](https://github.com/owncloud/core/pull/40216)
 * Bugfix - Use group's displayname in the user's profile and user list: [#40229](https://github.com/owncloud/core/pull/40229)
 * Bugfix - Init encryption module before calculating unencrypted block-size: [#40240](https://github.com/owncloud/core/pull/40240)
+* Bugfix - Fix personal settings display for apps which are not whitelisted: [#40257](https://github.com/owncloud/core/pull/40257)
+* Bugfix - Only call getGroupDetails when the group exists: [#40261](https://github.com/owncloud/core/pull/40261)
+* Bugfix - Allow usernames to be case-insensitive with app passwords: [#40119](https://github.com/owncloud/core/issues/40119)
 * Change - Improve visualization of author's comment in the comments section: [#40142](https://github.com/owncloud/core/pull/40142)
 * Change - Update PHP dependencies: [#39368](https://github.com/owncloud/core/pull/39368)
 * Change - Update Symfony components: [#39368](https://github.com/owncloud/core/pull/39368)
@@ -37,6 +40,7 @@ Summary
 * Enhancement - Add additional columns to background job queue status: [#40113](https://github.com/owncloud/core/pull/40113)
 * Enhancement - Add config option to bypass the proxy setting by domain: [#40148](https://github.com/owncloud/core/pull/40148)
 * Enhancement - Allow sharing with multiple users at once: [#40155](https://github.com/owncloud/core/pull/40155)
+* Enhancement - Allow editing of public link shared single files: [#40264](https://github.com/owncloud/core/pull/40264)
 
 Details
 -------
@@ -213,6 +217,30 @@ Details
 
    https://github.com/owncloud/core/pull/40240
 
+* Bugfix - Fix personal settings display for apps which are not whitelisted: [#40257](https://github.com/owncloud/core/pull/40257)
+
+   Apps can be disabled or enabled for guests. The personal settings for disabled apps were still
+   being shown to guest users. This problem has been fixed. Only the settings for enabled apps are
+   displayed now.
+
+   https://github.com/owncloud/core/pull/40257
+
+* Bugfix - Only call getGroupDetails when the group exists: [#40261](https://github.com/owncloud/core/pull/40261)
+
+   When getting a group, the getGroupDetails method could be called for a group that does not
+   exist. That is unnecessary and may cause a group backend implementation to log an error. The
+   code has been refactored to avoid this happening.
+
+   https://github.com/owncloud/core/pull/40261
+
+* Bugfix - Allow usernames to be case-insensitive with app passwords: [#40119](https://github.com/owncloud/core/issues/40119)
+
+   When using an app password, the associated username can now be provided in any
+   case-insensitive way in requests. Username "Alice" and "alice" will work the same.
+
+   https://github.com/owncloud/core/issues/40119
+   https://github.com/owncloud/core/pull/40281
+
 * Change - Improve visualization of author's comment in the comments section: [#40142](https://github.com/owncloud/core/pull/40142)
 
    Previously, a long display name for the author's comment could overlap with the "edit" action
@@ -233,10 +261,10 @@ Details
    (v2.5.0 to v2.6.3) - sabre/dav (4.3.1 to 4.4.0) - sabre/http (5.1.3 to 5.1.6) - sabre/vobject
    (4.4.1 to 4.4.3) - webmozart/assert (1.10.0 to 1.11.0)
 
-   The following have been updated in apps/files_external/3rdparty: -
-   google/apiclient-services (0.244.0 to 0.254.0) - google/apiclient (2.12.4 to 2.12.6) -
-   guzzlehttp/guzzle (v5.3.4 to v7.4.5) - icewind/smb (3.5.2 to 3.5.4) - icewind/streams
-   (0.7.5 to 0.7.6) - monolog/monolog (2.5.0 to 2.6.0)
+   The following have been updated in apps/files_external/3rdparty: - firebase/php-jwt
+   (v6.2.0 to v6.3.0) - google/apiclient-services (0.244.0 to 0.259.0) - google/apiclient
+   (2.12.4 to 2.12.6) - guzzlehttp/guzzle (v5.3.4 to v7.4.5) - icewind/smb (3.5.2 to 3.5.4) -
+   icewind/streams (0.7.5 to 0.7.6) - monolog/monolog (2.5.0 to 2.8.0)
 
    https://github.com/owncloud/core/pull/39368
    https://github.com/owncloud/core/pull/40092
@@ -252,21 +280,25 @@ Details
    https://github.com/owncloud/core/pull/40191
    https://github.com/owncloud/core/pull/40212
    https://github.com/owncloud/core/pull/40246
+   https://github.com/owncloud/core/pull/40250
 
 * Change - Update Symfony components: [#39368](https://github.com/owncloud/core/pull/39368)
 
-   The following Symfony components have been updated to: - console 4.4.43 - event-dispatcher
-   4.4.42 - polyfill-iconv 1.26.0 - polyfill-intl-idn 1.26.0 - polyfill-intl-normalizer
-   1.26.0 - polyfill-mbstring 1.26.0 - polyfill-php72 1.26.0 - polyfill-php73 1.26.0 -
-   polyfill-php80 1.26.0 - deprecation-contracts v2.5.2 - service-contracts v2.5.2 -
-   translation-contracts v2.5.2 - event-dispatcher-contracts v1.1.13
+   The following Symfony components have been updated to: - console 4.4.44 - event-dispatcher
+   4.4.44 - process 4.4.44 - routing 4.4.44 - translation 4.4.44 - polyfill-iconv 1.26.0 -
+   polyfill-intl-idn 1.26.0 - polyfill-intl-normalizer 1.26.0 - polyfill-mbstring 1.26.0 -
+   polyfill-php72 1.26.0 - polyfill-php73 1.26.0 - polyfill-php80 1.26.0 -
+   deprecation-contracts v2.5.2 - service-contracts v2.5.2 - translation-contracts v2.5.2 -
+   event-dispatcher-contracts v1.1.13
 
    https://github.com/owncloud/core/pull/39368
    https://github.com/owncloud/core/pull/40111
    https://github.com/owncloud/core/pull/40169
    https://github.com/owncloud/core/pull/40175
+   https://github.com/owncloud/core/pull/40255
    https://symfony.com/blog/symfony-4-4-42-released
    https://symfony.com/blog/symfony-4-4-43-released
+   https://symfony.com/blog/symfony-4-4-44-released
 
 * Enhancement - Add default app setting on a user basis: [#39600](https://github.com/owncloud/core/pull/39600)
 
@@ -304,6 +336,13 @@ Details
    https://github.com/owncloud/enterprise/issues/2865
    https://github.com/owncloud/core/pull/40155
    https://github.com/owncloud/core/pull/40199
+
+* Enhancement - Allow editing of public link shared single files: [#40264](https://github.com/owncloud/core/pull/40264)
+
+   It is now possible to create a public link share of a single file with Download/View/Edit
+   permissions.
+
+   https://github.com/owncloud/core/pull/40264
 
 Changelog for ownCloud Core [10.10.0] (2022-05-16)
 =======================================

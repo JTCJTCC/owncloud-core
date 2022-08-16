@@ -26,6 +26,9 @@
         <li class="type-bugfix changelog-item">Bugfix - Handle extra slashes at start of URI path: <a href="https://github.com/owncloud/core/pull/40216">#40216</a></li>
         <li class="type-bugfix changelog-item">Bugfix - Use group's displayname in the user's profile and user list: <a href="https://github.com/owncloud/core/pull/40229">#40229</a></li>
         <li class="type-bugfix changelog-item">Bugfix - Init encryption module before calculating unencrypted block-size: <a href="https://github.com/owncloud/core/pull/40240">#40240</a></li>
+        <li class="type-bugfix changelog-item">Bugfix - Fix personal settings display for apps which are not whitelisted: <a href="https://github.com/owncloud/core/pull/40257">#40257</a></li>
+        <li class="type-bugfix changelog-item">Bugfix - Only call getGroupDetails when the group exists: <a href="https://github.com/owncloud/core/pull/40261">#40261</a></li>
+        <li class="type-bugfix changelog-item">Bugfix - Allow usernames to be case-insensitive with app passwords: <a href="https://github.com/owncloud/core/issues/40119">#40119</a></li>
         <li class="type-change changelog-item">Change - Improve visualization of author's comment in the comments section: <a href="https://github.com/owncloud/core/pull/40142">#40142</a></li>
         <li class="type-change changelog-item">Change - Update PHP dependencies: <a href="https://github.com/owncloud/core/pull/39368">#39368</a></li>
         <li class="type-change changelog-item">Change - Update Symfony components: <a href="https://github.com/owncloud/core/pull/39368">#39368</a></li>
@@ -35,6 +38,7 @@
         <li class="type-enhancement changelog-item">Enhancement - Add additional columns to background job queue status: <a href="https://github.com/owncloud/core/pull/40113">#40113</a></li>
         <li class="type-enhancement changelog-item">Enhancement - Add config option to bypass the proxy setting by domain: <a href="https://github.com/owncloud/core/pull/40148">#40148</a></li>
         <li class="type-enhancement changelog-item">Enhancement - Allow sharing with multiple users at once: <a href="https://github.com/owncloud/core/pull/40155">#40155</a></li>
+        <li class="type-enhancement changelog-item">Enhancement - Allow editing of public link shared single files: <a href="https://github.com/owncloud/core/pull/40264">#40264</a></li>
     </ul>
     <h3 id="unreleased-details">Details</h3>
     <ul class="details">
@@ -206,6 +210,31 @@
             </p>
             <p>https://github.com/owncloud/core/pull/40240<br></p>
         </li>
+        <li class="type-bugfix changelog-item">
+            <p>Bugfix - Fix personal settings display for apps which are not whitelisted: <a href="https://github.com/owncloud/core/pull/40257">#40257</a></p>
+            <p>Apps can be disabled or enabled for guests. The personal settings for disabled apps were still
+   being shown to guest users. This problem has been fixed. Only the settings for enabled apps are
+   displayed now.
+            </p>
+            <p>https://github.com/owncloud/core/pull/40257<br></p>
+        </li>
+        <li class="type-bugfix changelog-item">
+            <p>Bugfix - Only call getGroupDetails when the group exists: <a href="https://github.com/owncloud/core/pull/40261">#40261</a></p>
+            <p>When getting a group, the getGroupDetails method could be called for a group that does not
+   exist. That is unnecessary and may cause a group backend implementation to log an error. The
+   code has been refactored to avoid this happening.
+            </p>
+            <p>https://github.com/owncloud/core/pull/40261<br></p>
+        </li>
+        <li class="type-bugfix changelog-item">
+            <p>Bugfix - Allow usernames to be case-insensitive with app passwords: <a href="https://github.com/owncloud/core/issues/40119">#40119</a></p>
+            <p>When using an app password, the associated username can now be provided in any
+   case-insensitive way in requests. Username "Alice" and "alice" will work the same.
+            </p>
+            <p>https://github.com/owncloud/core/issues/40119<br>
+            </p>
+            <p>https://github.com/owncloud/core/pull/40281<br></p>
+        </li>
         <li class="type-change changelog-item">
             <p>Change - Improve visualization of author's comment in the comments section: <a href="https://github.com/owncloud/core/pull/40142">#40142</a></p>
             <p>Previously, a long display name for the author's comment could overlap with the "edit" action
@@ -222,23 +251,24 @@
    v7.4.5) - icewind/streams (0.7.5 to 0.7.6) - laminas/laminas-stdlib (3.7.1 to 3.11.0) -
    laminas/laminas-validator (2.17.0 to 2.19.0) - paragonie/constant_time_encoding
    (v2.5.0 to v2.6.3) - sabre/dav (4.3.1 to 4.4.0) - sabre/http (5.1.3 to 5.1.6) - sabre/vobject
-   (4.4.1 to 4.4.3) - webmozart/assert (1.10.0 to 1.11.0)The following have been updated in apps/files_external/3rdparty: -
-   google/apiclient-services (0.244.0 to 0.254.0) - google/apiclient (2.12.4 to 2.12.6) -
-   guzzlehttp/guzzle (v5.3.4 to v7.4.5) - icewind/smb (3.5.2 to 3.5.4) - icewind/streams
-   (0.7.5 to 0.7.6) - monolog/monolog (2.5.0 to 2.6.0)
+   (4.4.1 to 4.4.3) - webmozart/assert (1.10.0 to 1.11.0)The following have been updated in apps/files_external/3rdparty: - firebase/php-jwt
+   (v6.2.0 to v6.3.0) - google/apiclient-services (0.244.0 to 0.259.0) - google/apiclient
+   (2.12.4 to 2.12.6) - guzzlehttp/guzzle (v5.3.4 to v7.4.5) - icewind/smb (3.5.2 to 3.5.4) -
+   icewind/streams (0.7.5 to 0.7.6) - monolog/monolog (2.5.0 to 2.8.0)
             </p>
-            <p>https://github.com/owncloud/core/pull/39368<br>https://github.com/owncloud/core/pull/40092<br>https://github.com/owncloud/core/pull/40110<br>https://github.com/owncloud/core/pull/40121<br>https://github.com/owncloud/core/pull/40135<br>https://github.com/owncloud/core/pull/40136<br>https://github.com/owncloud/core/pull/40137<br>https://github.com/owncloud/core/pull/40151<br>https://github.com/owncloud/core/pull/40154<br>https://github.com/owncloud/core/pull/40169<br>https://github.com/owncloud/core/pull/40171<br>https://github.com/owncloud/core/pull/40191<br>https://github.com/owncloud/core/pull/40212<br>https://github.com/owncloud/core/pull/40246<br></p>
+            <p>https://github.com/owncloud/core/pull/39368<br>https://github.com/owncloud/core/pull/40092<br>https://github.com/owncloud/core/pull/40110<br>https://github.com/owncloud/core/pull/40121<br>https://github.com/owncloud/core/pull/40135<br>https://github.com/owncloud/core/pull/40136<br>https://github.com/owncloud/core/pull/40137<br>https://github.com/owncloud/core/pull/40151<br>https://github.com/owncloud/core/pull/40154<br>https://github.com/owncloud/core/pull/40169<br>https://github.com/owncloud/core/pull/40171<br>https://github.com/owncloud/core/pull/40191<br>https://github.com/owncloud/core/pull/40212<br>https://github.com/owncloud/core/pull/40246<br>https://github.com/owncloud/core/pull/40250<br></p>
         </li>
         <li class="type-change changelog-item">
             <p>Change - Update Symfony components: <a href="https://github.com/owncloud/core/pull/39368">#39368</a></p>
-            <p>The following Symfony components have been updated to: - console 4.4.43 - event-dispatcher
-   4.4.42 - polyfill-iconv 1.26.0 - polyfill-intl-idn 1.26.0 - polyfill-intl-normalizer
-   1.26.0 - polyfill-mbstring 1.26.0 - polyfill-php72 1.26.0 - polyfill-php73 1.26.0 -
-   polyfill-php80 1.26.0 - deprecation-contracts v2.5.2 - service-contracts v2.5.2 -
-   translation-contracts v2.5.2 - event-dispatcher-contracts v1.1.13
+            <p>The following Symfony components have been updated to: - console 4.4.44 - event-dispatcher
+   4.4.44 - process 4.4.44 - routing 4.4.44 - translation 4.4.44 - polyfill-iconv 1.26.0 -
+   polyfill-intl-idn 1.26.0 - polyfill-intl-normalizer 1.26.0 - polyfill-mbstring 1.26.0 -
+   polyfill-php72 1.26.0 - polyfill-php73 1.26.0 - polyfill-php80 1.26.0 -
+   deprecation-contracts v2.5.2 - service-contracts v2.5.2 - translation-contracts v2.5.2 -
+   event-dispatcher-contracts v1.1.13
             </p>
-            <p>https://github.com/owncloud/core/pull/39368<br>https://github.com/owncloud/core/pull/40111<br>https://github.com/owncloud/core/pull/40169<br>https://github.com/owncloud/core/pull/40175<br></p>
-            <p>https://symfony.com/blog/symfony-4-4-42-released<br>https://symfony.com/blog/symfony-4-4-43-released<br></p>
+            <p>https://github.com/owncloud/core/pull/39368<br>https://github.com/owncloud/core/pull/40111<br>https://github.com/owncloud/core/pull/40169<br>https://github.com/owncloud/core/pull/40175<br>https://github.com/owncloud/core/pull/40255<br></p>
+            <p>https://symfony.com/blog/symfony-4-4-42-released<br>https://symfony.com/blog/symfony-4-4-43-released<br>https://symfony.com/blog/symfony-4-4-44-released<br></p>
         </li>
         <li class="type-enhancement changelog-item">
             <p>Enhancement - Add default app setting on a user basis: <a href="https://github.com/owncloud/core/pull/39600">#39600</a></p>
@@ -276,6 +306,13 @@
             <p>https://github.com/owncloud/enterprise/issues/2865<br>
             </p>
             <p>https://github.com/owncloud/core/pull/40155<br>https://github.com/owncloud/core/pull/40199<br></p>
+        </li>
+        <li class="type-enhancement changelog-item">
+            <p>Enhancement - Allow editing of public link shared single files: <a href="https://github.com/owncloud/core/pull/40264">#40264</a></p>
+            <p>It is now possible to create a public link share of a single file with Download/View/Edit
+   permissions.
+            </p>
+            <p>https://github.com/owncloud/core/pull/40264<br></p>
         </li>
     </ul>
     <h2 id="10.10.0" class="version"> Changelog for ownCloud Core [10.10.0] (2022-05-16)</h2>
